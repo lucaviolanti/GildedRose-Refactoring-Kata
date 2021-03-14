@@ -17,3 +17,6 @@
 .classpath
 
 target/
+
+# sbt
+.bsp
