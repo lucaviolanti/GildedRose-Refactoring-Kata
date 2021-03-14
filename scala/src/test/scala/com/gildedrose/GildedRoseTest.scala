@@ -32,7 +32,7 @@ class GildedRoseTest extends AnyFreeSpec with Matchers {
           val items = Array[Item](new Item("regularItem", 1, 1))
           val app = new GildedRose(items)
           app.updateQuality()
-          app.items(0).quality should equal(0)
+          app.items(0).sellIn should equal(0)
         }
         "lowers their Quality twice as fast once the sell by date has passed" in {
           val items = Array[Item](new Item("regularItem", 0, 2))
