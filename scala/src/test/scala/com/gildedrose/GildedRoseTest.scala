@@ -5,8 +5,8 @@ import org.scalatest.matchers.should.Matchers
 
 class GildedRoseTest extends AnyFreeSpec with Matchers {
   "GildedRose" - {
-    "updateQuality should update" - {
-      "all items so that it" - {
+    ".updateQuality() should update:" - {
+      "all items so that it:" - {
         "leaves the name unchanged" in {
           val items = Array[Item](new Item("foo", 0, 0))
           val app = new GildedRose(items)
@@ -21,7 +21,7 @@ class GildedRoseTest extends AnyFreeSpec with Matchers {
         }
       }
 
-      "regular items so that it" - {
+      "regular items so that it:" - {
         "lowers their Quality by 1" in {
           val items = Array[Item](new Item("regularItem", 1, 1))
           val app = new GildedRose(items)
@@ -42,19 +42,33 @@ class GildedRoseTest extends AnyFreeSpec with Matchers {
         }
       }
 
-      "\"Aged Brie\" so that it" - {
+      "\"Aged Brie\" so that it:" - {
         "increases its Quality the older it gets" in {
           val items = Array[Item](new Item("Aged Brie", 1, 0))
           val app = new GildedRose(items)
           app.updateQuality()
           app.items(0).quality should equal(1)
         }
-
         "increases its Quality by two once expired" in {
           val items = Array[Item](new Item("Aged Brie", 0, 0))
           val app = new GildedRose(items)
           app.updateQuality()
           app.items(0).quality should equal(2)
+        }
+        "does not increase its Quality over 50" in {
+          val items = Array[Item](new Item("Aged Brie", 2, 50))
+          val app = new GildedRose(items)
+          app.updateQuality()
+          app.items(0).quality should equal(50)
+        }
+      }
+
+      "\"Sulfuras, Hand of Ragnaros\" so that it:" - {
+        "does not lower its quality" in {
+          val items = Array[Item](new Item("Sulfuras, Hand of Ragnaros", 0, 80))
+          val app = new GildedRose(items)
+          app.updateQuality()
+          app.items(0).quality should equal(80)
         }
       }
     }
