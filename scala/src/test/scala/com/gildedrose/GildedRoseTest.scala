@@ -104,7 +104,7 @@ class GildedRoseTest extends AnyFreeSpec with Matchers with Checkers {
   }
 
   def updateSingleItemOnce(name: String, sellIn: Int, quality: Int): Item = {
-    val items = Array[Item](new Item(name, sellIn, quality))
+    val items = Array[Item](Item(name, sellIn, quality))
     val app = new GildedRose(items)
     app.updateQuality()
     app.items(0)
