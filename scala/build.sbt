@@ -5,4 +5,7 @@ version := "1.0"
 scalaVersion := "2.13.1"
 
 resolvers += DefaultMavenRepository
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.1" % "test"
+libraryDependencies ++= Seq(
+  "org.scalatest" %% "scalatest" % "3.1.2" % "test",
+  "org.scalatestplus" %% "scalacheck-1-15" % "3.2.5.0" % "test"
+)
