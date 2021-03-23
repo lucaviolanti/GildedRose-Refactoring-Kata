@@ -5,7 +5,10 @@ version := "1.0"
 scalaVersion := "2.13.5"
 
 resolvers += DefaultMavenRepository
+
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.1.2" % "test",
-  "org.scalatestplus" %% "scalacheck-1-15" % "3.2.5.0" % "test"
+  "org.scalameta" %% "munit" % "0.7.22" % Test,
+  "org.scalameta" %% "munit-scalacheck" % "0.7.22" % Test
 )
+// Use %%% for non-JVM projects.
+testFrameworks += new TestFramework("munit.Framework")
