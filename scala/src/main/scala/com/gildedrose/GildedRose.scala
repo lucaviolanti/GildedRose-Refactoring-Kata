@@ -1,6 +1,7 @@
 package com.gildedrose
 
 class GildedRose(val items: Array[Item]) {
+
   def updateQuality() {
     items.foreach {
       case brie@AgedBrie(_, _) => updateBrie(brie)
@@ -10,17 +11,16 @@ class GildedRose(val items: Array[Item]) {
       case Sulfuras(_, _) => {
       }
 
+      case conjuredItem@ConjuredItem(_, _, _) => updateConjuredItem(conjuredItem)
+
       case item@_ => updateRegularItem(item)
     }
   }
 
-  private def updateRegularItem(item: Item): Unit = {
-    if (item.quality > 0) {
-      item.quality -= 1
-    }
-    item.sellIn -= 1
-    if (item.sellIn < 0 && item.quality > 0) {
-      item.quality -= 1
+  private def updateBrie(brie: AgedBrie): Unit = {
+    brie.sellIn = brie.sellIn - 1
+    if (brie.quality < 50) {
+      brie.quality += (if (brie.sellIn < 0) 2 else 1)
     }
   }
 
@@ -40,10 +40,23 @@ class GildedRose(val items: Array[Item]) {
     }
   }
 
-  private def updateBrie(brie: AgedBrie): Unit = {
-    brie.sellIn = brie.sellIn - 1
-    if (brie.quality < 50) {
-      brie.quality += (if (brie.sellIn < 0) 2 else 1)
+  def updateConjuredItem(conjuredItem: ConjuredItem): Unit = {
+    if (conjuredItem.quality > 1) {
+      conjuredItem.quality -= 2
+    }
+    conjuredItem.sellIn -= 1
+    if (conjuredItem.sellIn < 0 && conjuredItem.quality > 1) {
+      conjuredItem.quality -= 2
+    }
+  }
+
+  private def updateRegularItem(item: Item): Unit = {
+    if (item.quality > 0) {
+      item.quality -= 1
+    }
+    item.sellIn -= 1
+    if (item.sellIn < 0 && item.quality > 0) {
+      item.quality -= 1
     }
   }
 }

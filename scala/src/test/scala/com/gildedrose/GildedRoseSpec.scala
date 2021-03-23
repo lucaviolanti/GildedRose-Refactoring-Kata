@@ -16,17 +16,17 @@ class GildedRoseSpec extends ScalaCheckSuite {
     }
   }
 
-  property("regular items get their Quality lowered by 1 before sell by date") {
-    val qualityVals = Gen.choose(1, 100)
-    forAll(qualityVals) { q =>
-      updateSingleItemOnce("regularItem", 20, q).quality == q - 1
-    }
-  }
-
   property("regular items get their SellIn lowered by 1") {
     val sellInVals = Gen.choose(-100, 100)
     forAll(sellInVals) { s =>
       updateSingleItemOnce("regularItem", s, 99).sellIn == s - 1
+    }
+  }
+
+  property("regular items get their Quality lowered by 1 before sell by date") {
+    val qualityVals = Gen.choose(1, 100)
+    forAll(qualityVals) { q =>
+      updateSingleItemOnce("regularItem", 20, q).quality == q - 1
     }
   }
 
@@ -92,6 +92,20 @@ class GildedRoseSpec extends ScalaCheckSuite {
     val sellInVals = Gen.choose(-100, 0)
     forAll(sellInVals) { s =>
       updateSingleItemOnce("Backstage passes to a TAFKAL80ETC concert", s, 50).quality == 0
+    }
+  }
+
+  property("\"Conjured\" items degrade in Quality twice as fast as normal items before their SellIn date") {
+    val sellInVals = Gen.choose(1, 10)
+    forAll(sellInVals) { s =>
+      updateSingleItemOnce("Conjured item", s, 2).quality == 0
+    }
+  }
+
+  property("\"Conjured\" items degrade in Quality twice as fast as normal items after their SellIn date") {
+    val sellInVals = Gen.choose(-10, 0)
+    forAll(sellInVals) { s =>
+      updateSingleItemOnce("Conjured item", s, 4).quality == 0
     }
   }
 
