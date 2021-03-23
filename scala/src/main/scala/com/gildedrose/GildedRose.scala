@@ -17,46 +17,31 @@ class GildedRose(val items: Array[Item]) {
     }
   }
 
-  private def updateBrie(brie: AgedBrie): Unit = {
-    brie.sellIn = brie.sellIn - 1
-    if (brie.quality < 50) {
-      brie.quality += (if (brie.sellIn < 0) 2 else 1)
+  private def updateBrie(ab: AgedBrie): Unit = {
+    ab.sellIn = ab.sellIn - 1
+    if (ab.quality < 50) {
+      ab.quality += (if (ab.sellIn < 0) 2 else 1)
     }
   }
 
-  private def updatePass(pass: BackstagePass): Unit = {
-    if (pass.quality < 50) {
-      pass.quality += 1
-      if (pass.sellIn < 11 && pass.quality < 50) {
-        pass.quality += 1
-      }
-      if (pass.sellIn < 6 && pass.quality < 50) {
-        pass.quality += 1
-      }
-    }
-    pass.sellIn = pass.sellIn - 1
-    if (pass.sellIn < 0) {
-      pass.quality = 0
-    }
+  private def updatePass(bp: BackstagePass): Unit = {
+    bp.sellIn = bp.sellIn - 1
+    if (bp.sellIn >= 10) bp.quality += 1
+    else if (bp.sellIn >= 5) bp.quality += 2
+    else if (bp.sellIn >= 0) bp.quality += 3
+    else bp.quality = 0
+    if (bp.quality > 50) bp.quality = 50
   }
 
-  def updateConjuredItem(conjuredItem: ConjuredItem): Unit = {
-    if (conjuredItem.quality > 1) {
-      conjuredItem.quality -= 2
-    }
-    conjuredItem.sellIn -= 1
-    if (conjuredItem.sellIn < 0 && conjuredItem.quality > 1) {
-      conjuredItem.quality -= 2
-    }
+  def updateConjuredItem(ci: ConjuredItem): Unit = {
+    ci.sellIn -= 1
+    ci.quality -= (if (ci.sellIn <= 0) 4 else 2)
+    if (ci.quality < 0) ci.quality = 0
   }
 
-  private def updateRegularItem(item: Item): Unit = {
-    if (item.quality > 0) {
-      item.quality -= 1
-    }
-    item.sellIn -= 1
-    if (item.sellIn < 0 && item.quality > 0) {
-      item.quality -= 1
-    }
+  private def updateRegularItem(ri: Item): Unit = {
+    ri.sellIn -= 1
+    ri.quality -= (if (ri.sellIn <= 0) 2 else 1)
+    if (ri.quality < 0) ri.quality = 0
   }
 }

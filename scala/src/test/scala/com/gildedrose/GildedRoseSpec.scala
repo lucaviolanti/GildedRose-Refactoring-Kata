@@ -89,7 +89,7 @@ class GildedRoseSpec extends ScalaCheckSuite {
   }
 
   property("Backstage passes drop their Quality to 0 after the concert") {
-    val sellInVals = Gen.choose(-100, 0)
+    val sellInVals = Gen.choose(-10, 0)
     forAll(sellInVals) { s =>
       updateSingleItemOnce("Backstage passes to a TAFKAL80ETC concert", s, 50).quality == 0
     }
